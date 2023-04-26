@@ -37,8 +37,8 @@ class NewMovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         bind(view)
-        actionSumit.set0nclickListener {
-
+        actionSumit.setOnClickListener {
+            createMovie()
         }
 
     }
