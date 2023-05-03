@@ -1,2 +1,0 @@
-¿En que consiste el patron de diseño repository? Es un patron que aisla la capa de datos del resto de la app,la capa de dato hace referencia a la parte de la app.
-¿Que es el ViewModel? Es encapsula los datos para un controlador de IU a fin de que estos sobrevivan a los cambios de condiguracion
