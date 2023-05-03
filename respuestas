@@ -1,0 +1,5 @@
+1- garantiza que la IU coincida con el estado de los datos, sin fuga de memoria y no mas control manual de ciclo.
+
+2- el patron de diseño de live data esta conformado de layout y de incerteo.
+3- se debe agregar un linea de dataBinding y adentro "enabled true"
+4-organiza y colecciona datod segun la peferencia que le queres brindar y es mas flexible.

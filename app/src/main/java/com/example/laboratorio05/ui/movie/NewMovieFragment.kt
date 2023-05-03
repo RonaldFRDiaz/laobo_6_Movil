@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.laboratorio05.R
 import com.example.laboratorio05.data.models.MovieModel
+import com.example.laboratorio05.databinding.FragmentNewMovieBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -19,48 +20,48 @@ class NewMovieFragment : Fragment() {
     private val viewModel:  MovieViewModel by activityViewModels {
         MovieViewModel.factory
     }
-    private lateinit var name: TextInputEditText
-    private lateinit var category: TextInputEditText
-    private lateinit var description: TextInputEditText
-    private lateinit var calification: TextInputEditText
-    private lateinit var actionSumit: Button
+
+
+    private lateinit var  binding: FragmentNewMovieBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_movie, container, false)
+        binding = FragmentNewMovieBinding.inflate(inflater ,container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bind(view)
-        actionSumit.setOnClickListener {
-            createMovie()
+        setViewModel()
+        observeStatus()
+    }
+
+    private fun setViewModel(){
+        binding.viewmodel = viewModel
+    }
+
+    private  fun observeStatus(){
+        viewModel.status.observe(viewLifecycleOwner) {status ->
+            when {
+                status.equals(MovieViewModel.MOVIE_CREATED) -> {
+                    Log.d("APP TAG", status)
+                    Log.d("AOO TAG", viewModel.getMovies().toString())
+
+                    viewModel.clearStatus()
+                    viewModel.ClearData()
+
+                    findNavController().popBackStack()
+                }
+                status.equals(MovieViewModel.WRONG_DATA) -> {
+                Log.d("APP TAP", status)
+                    viewModel.clearStatus()
+                }
+            }
+            }
+
         }
-
     }
-    private fun bind(view: View){
-        name = view.findViewById(R.id.nameNew)
-        category = view.findViewById(R.id.categoryNew)
-        description = view.findViewById(R.id.DescriptionNew)
-        calification = view.findViewById(R.id.calificationNew)
-        actionSumit = view.findViewById(R.id.actionNew)
-    }
-    private fun createMovie() {
-        val newMovie = MovieModel(
-            name.text.toString(),
-            category.text.toString(),
-            description.text.toString(),
-            calification.text.toString(),
-        )
-        viewModel.addMovie(newMovie)
-
-        Log.d("APP TAG", viewModel.getMovies().toString())
-
-        findNavController().popBackStack()
-    }
-
-}
